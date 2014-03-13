@@ -7,7 +7,6 @@ package beergame;
 
 import java.util.ArrayList;
 import java.util.List;
-import sun.awt.image.SunWritableRaster;
 
 /**
  *
@@ -21,6 +20,11 @@ public class DataStream {
         data = new ArrayList<>();
     }
 
+    DataStream(double d) {
+        this();
+        data.add(d);
+    }
+
     public void push(Double element) {
         data.add(element);
     }
@@ -30,11 +34,22 @@ public class DataStream {
     }
 
     public Double get(int index) {
+//        if (index > 0 && index < data.size()) {
         return data.get(index);
+//        } else {
+//            System.out.println("error in dataStream.get(index)! index=" + index + " size=" + data.size());
+//            return 0.0;
+//        }
+
     }
 
-    public List<Double> get() {
+    public List<Double> getStream() {
         return data;
+    }
+
+    @Override
+    public String toString() {
+        return data + "";
     }
 
 }

@@ -9,30 +9,50 @@ package beergame;
  *
  * @author aleyase2-admin
  */
-public abstract class Agent {
+public class Agent {
 
-    Stock stock;
-    Incoming incoming;
-    Outgoing outgoing;
-    static Double DEFAULT_OUTGOING = 4.0;
+    String name;
+    DataStream inventory;
+    DataStream incomingDelivery, outgoingDelivery;
+    DataStream incomingOrder, outgoingOrder;
+    DataStream balance;
+    DataStream backorder;
 
-    public Agent() {
-        stock = new Stock();
-        incoming = new Incoming();
-        outgoing = new Outgoing();
+    static Double DEFAULT_ORDER = 0.0;
+
+    public Agent(String name) {
+        inventory = new DataStream(0.0);
+        incomingDelivery = new DataStream(0);
+        outgoingDelivery = new DataStream(0);
+        incomingOrder = new DataStream(0);
+        outgoingOrder = new DataStream(0);
+        backorder = new DataStream(0);
+        balance = new DataStream(0);
+        this.name = name;
     }
 
-    public void incoming(Double val) {
-        incoming.push(val);
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Double getOutgoing(int week) {
-        if (week < 0) {
-            return DEFAULT_OUTGOING;
+    public String getName() {
+        return name;
+    }
+
+    public DataStream getInventoriesPlusBackorder() {
+        DataStream invAndBackOrder = new DataStream();
+        for (int i = 0; i < inventory.getStream().size(); i++) {
+            invAndBackOrder.push(inventory.get(i) - backorder.get(i));
         }
-        return outgoing.get(week);
+        return invAndBackOrder;
     }
 
-    public abstract void play();
+    public void play() {
+    }
+
+    @Override
+    public String toString() {
+        return name + " [DLV:" + incomingDelivery + "][ORD:" + incomingOrder + "][BOR:" + backorder + "][INV:" + inventory + "]\n";
+    }
 
 }
