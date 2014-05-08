@@ -64,10 +64,10 @@ public class SupplyChain {
 
     public void calculateOutgoingOrder(Agent agent) {
 //        scenario1(agent);
-        scenario2(agent);
+//        scenario2(agent);
 //        scenario3(agent);
 //        scenario4(agent);
-//        scenario5(agent);
+        scenario5(agent);
     }
 
     public void scenario1(Agent agent) { // Follow incoming order
@@ -102,7 +102,7 @@ public class SupplyChain {
         agent.outgoingOrder.push(outgoingOrder);
     }
 
-    static double MAX_DRIFT = 4.0;
+    static double MAX_DRIFT = 20.0;
 
     public void scenario5(Agent agent) { // All know maximum drift
         Double outgoingOrder = 0.0;
@@ -129,25 +129,29 @@ public class SupplyChain {
         Agent retailer = new Agent("Retailer") {
             @Override
             public void play() {
-                calculateOutgoingOrder(this);
+                scenario4(this);
+//                calculateOutgoingOrder(this);
             }
         };
         Agent wholesaler = new Agent("Wholesaler") {
             @Override
             public void play() {
-                calculateOutgoingOrder(this);
+                scenario3(this);
+//                calculateOutgoingOrder(this);
             }
         };
         Agent distributer = new Agent("Distributer") {
             @Override
             public void play() {
-                calculateOutgoingOrder(this);
+                scenario1(this);
+//                calculateOutgoingOrder(this);
             }
         };
         Agent producer = new Agent("Producer") {
             @Override
             public void play() {
-                calculateOutgoingOrder(this);
+                scenario2(this);
+//                calculateOutgoingOrder(this);
             }
         };
         agents.addAll(Arrays.asList(retailer, wholesaler, distributer, producer));
